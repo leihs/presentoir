@@ -78,11 +78,5 @@ module Presentoir
         raise 'Unspecified object type'
       end
     end
-
-    ############################################################
-
-    def delegate_to(inst_var, *args)
-      args.each { |m| delegate m, to: inst_var }
-    end
   end
 end

@@ -1,9 +1,6 @@
 module Presentoir
   class Presenter
     extend Presentoir::DumpHelpers
-    if Rails.application
-      include Rails.application.routes.url_helpers
-    end
 
     def api
       self_singleton_methods = self.singleton_methods
@@ -20,11 +17,6 @@ module Presentoir
         .uniq
         .reject { |m| m == :inspect }
         .push(:_presenter)
-    end
-
-    def _presenter
-      return if Rails.env != 'development'
-      self.class.name
     end
 
     def dump(sparse_spec: nil)
@@ -72,18 +64,5 @@ module Presentoir
     def as_json # Rails/ActiveRecord convention/compatibilty
       full_dump
     end
-
-    def type # not used in ruby land! (js models only)
-      self.class.name.demodulize
-    end
-
-    private
-
-    def prepend_url_context(url = '')
-      # FIXME: RAILS BUG https://github.com/rails/rails/pull/17724
-      context = Rails.application.routes.relative_url_root
-      context.present? ? context + url : url
-    end
-
   end
 end
