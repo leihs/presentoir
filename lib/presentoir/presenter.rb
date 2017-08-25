@@ -61,7 +61,7 @@ module Presentoir
       full_dump
     end
 
-    def as_json # Rails/ActiveRecord convention/compatibilty
+    def as_json(*) # Rails/ActiveRecord convention/compatibilty
       full_dump
     end
   end
