@@ -28,6 +28,10 @@ class ApplicationRecordPresenter < ApplicationPresenter
     delegate_to :record, *args
   end
 
+  def self.delegate_to(inst_var, *args)
+    args.each { |m| delegate m, to: inst_var }
+  end
+
   if defined? Pundit
     include Pundit
 

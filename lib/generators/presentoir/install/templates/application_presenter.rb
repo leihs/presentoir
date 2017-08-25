@@ -12,10 +12,6 @@ class ApplicationPresenter < Presentoir::Presenter
 
   private
 
-  def delegate_to(inst_var, *args)
-    args.each { |m| delegate m, to: inst_var }
-  end
-
   def prepend_url_context(url = '')
     # FIXME: RAILS BUG https://github.com/rails/rails/pull/17724
     context = Rails.application.routes.relative_url_root
