@@ -7,7 +7,7 @@ module Presentoir
       self_class_methods = self
         .class
         .ancestors
-        .take_while { |a| a.name.match(/^Presenters/) if a.name }
+        .take_while { |a| a < Presenter }
         .map { |a| a.instance_methods(false) }
 
       presenter_api_methods = (self_singleton_methods + self_class_methods)
