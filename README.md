@@ -41,10 +41,29 @@ Le dictionnaire libre*](https://fr.wiktionary.org/wiki/présentoir)
 
 # Usage
 
+Inherit from base class, then each class instace
+is "dumped" as a Hash, with every method as a key (and their return value).
+Private methods and those that take arguments wont be dumped.
+
+### minimal
+
 ```ruby
-# Inherit from base class, then each class instace
-# is "dumped" as a Hash, with every method as a key (and their return value)
-# Private methods and those that take arguments wont be dumped.
+class Presenter::Numbers < Presentoir::Presenter
+  def one
+    1
+  end
+end
+
+# use it:
+data = Presenter::Numbers.new
+# dump it:
+data.dump
+# => {:one=>1}
+```
+
+### with nesting
+
+```ruby
 class Presenter::Numbers < Presentoir::Presenter
   def one
     # plain values (skalars, Hashes, Arrays) are used as-is
@@ -68,8 +87,51 @@ class Presenter::RandomNumber < Presentoir::Presenter
 
   private
 
-  def roll_dice(sides:)
+  def roll_dice(sides)
     rand(sides - 1 ) + 1
+  end
+end
+
+# use it:
+data = Presenter::Numbers.new
+# dump it:
+data.dump
+# => {:one=>1, :random=>{:six_sided_dice=>5, eight_sided_dice=>2}}}
+# advanced: dump just parts of it:
+data.dump(sparse_spec: {random: {eight_sided_dice: {}}}})
+# => {:random=>{:eight_sided_dice=>4}}}
+```
+
+### with nesting and inheritance
+
+```ruby
+class Presenter::Dices < Presentoir::Presenter
+  def six_sided_dice
+    Presenter::Dice::SixSides.new
+  end
+
+  def eight_sided_dice
+    Presenter::Dice::SixSides.new
+  end
+end
+
+class Presenter::Dice < Presentoir::Presenter
+  private
+
+  def roll_dice(sides)
+    rand(sides - 1 ) + 1
+  end
+end
+
+class Presenter::Dice < Presentoir::Presenter
+  def number
+    roll_dice(6)
+  end
+end
+
+class Presenter::Dice::SixSides < Presentoir::Presenter
+  def number
+    roll_dice(6)
   end
 end
 
