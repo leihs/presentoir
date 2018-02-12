@@ -8,11 +8,11 @@ class ApplicationRecordPresenter < ApplicationPresenter
   end
 
   # extend presenter base method:
-  def type
+  def __type
     record.class.name or super
   end
 
-  def uuid
+  def id
     record.try(:id)
   end
 

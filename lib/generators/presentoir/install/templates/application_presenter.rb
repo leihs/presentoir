@@ -5,7 +5,7 @@ class ApplicationPresenter < Presentoir::Presenter
     self.class.name.demodulize
   end
 
-  def _presenter
+  def __presenter
     return if Rails.env != 'development'
     self.class.name
   end
