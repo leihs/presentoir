@@ -16,7 +16,6 @@ module Presentoir
         .flatten
         .uniq
         .reject { |m| m == :inspect }
-        .push(:_presenter)
     end
 
     def dump(sparse_spec: nil)
